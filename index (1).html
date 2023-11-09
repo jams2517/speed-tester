@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Check Speed</title>
+
+
+<-- Code added    -->                
+<style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+        /* Main styles */
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: azure;
+            background-image: url('globe.jpg');
+            background-size: 200% auto;
+            animation: moveBackground 10s linear infinite;
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: skyblue;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 2;
+        }
+
+        .navbar a {
+            float: left;
+            font-size: 16px;
+            color: blue;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown {
+            float: left;
+            overflow: hidden;
+        }
+
+        .dropdown .dropbtn {
+            font-size: 16px;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 14px 16px;
+            background-color: inherit;
+            font-family: inherit;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .navbar a:hover,
+        .dropdown:hover .dropbtn {
+            background-color: grey;
+        }
+
+        /* Dropdown Content Styles */
+        .dropdown-content {
+            display: block;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+        }
+
+        .dropdown-content a {
+            float: none;
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Animated Caret Icon */
+        .dropdown:hover .fa-caret-down {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .fa-caret-down {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Highlight the active menu item */
+        .navbar a.active {
+            color: #FF5733;
+        }
+
+        @keyframes moveBackground {
+            from {
+                background-position: 0% 0;
+            }
+            to {
+                background-position: 100% 0;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+        }
+
+        /* Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #speedResult {
+            position: fixed;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+        }
+
+        .footer {
+            width: 100%;
+            background-color: skyblue;
+            padding: 20px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            animation: slideUp 1s ease-in-out forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .footer a {
+            margin: 0 20px;
+            text-decoration: none;
+            color: blue;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: grey;
+        }
+
+        .social-media-links i {
+            margin: 0 10px;
+            font-size: 24px;
+        }
+
+        /* Button */
+        .glow-on-hover {
+            width: 220px;
+            height: 50px;
+            border: none;
+            outline: none;
+            color: #fff;
+            background: #111;
+            cursor: pointer;
+            position: relative;
+            z-index: 0;
+            border-radius: 10px;
+        }
+
+        .glow-on-hover:before {
+            content: '';
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(5px);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 10px;
+        }
+
+        .glow-on-hover:active {
+            color: #000;
+        }
+
+        .glow-on-hover:active:after {
+            background: transparent;
+        }
+
+        .glow-on-hover:hover:before {
+            opacity: 1;
+        }
+
+        .glow-on-hover:after {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            left: 0;
+            top: 0;
+            border-radius: 10px;
+        }
+
+        @keyframes glowing {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 400% 0;
+           
+
+       }
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            background-color: #2196F3;
+            padding: 10px;
+        }
+
+        .grid-item {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+        }
+
+
+    #speedButton {
+        border-radius: 50%; /* Makes the button round */
+        padding: 10px 20px; /* Adjust as needed for button size */
+        border: none; /* Removes any default borders */
+        cursor: pointer; /* Makes the button look clickable */
+        color: #fff; /* Text color on the button */
+    }
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: #2196F3;
+  padding: 10px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+</style>
+
+<-- Code added    -->  
+</head>
+
+
+<--Code added -->
+
+<div class="navbar">
+        <a href="#default" class="logo"><img src="gtmetrix.png" height="50" width="200"></a>
+        <div class="dropdown">
+            <button class="dropbtn">Features
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">Why GTmetrix?</a>
+                <a href="#">Get Started for FREE</a>
+                <a href="#">Why go PRO</a>
+            </div>
+        </div>
+
+        <a href="#price">Pricing</a>
+
+        <div class="dropdown">
+            <button class="dropbtn">Resources
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">Resources</a>
+                <a href="#">Metrics & Audits</a>
+                <a href="#">Using GTmetrix</a>
+            </div>
+        </div>
+
+<a href="#blog">Blog</a>
+        <img src="login.jpg" style="float: right;" height="90" width="100">
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <div>
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <div>
+                        <input type="submit" value="Login">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+<!-- Animated Footer -->
+    <div class="footer" id="footer">
+        <a href="#about">About</a>
+        <a href="#" id="showContactForm">Contact Us</a>
+        <div class="social-media-links">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+        </div>
+    </div>
+
+   
+
+    <!-- Contact Form Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeContactModal">&times;</span>
+            <h2>Contact Us</h2>
+            <form id="contactForm">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div>
+                    <label for="message">Message:</label>
+                    <textarea id="message" rows="4" required></textarea>
+                </div>
+                <div>
+                    <input type="submit" value="Send">
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+<-- code added -->
+
+
+<body>
+
+
+
+    <form id="speedForm" onsubmit="checkSpeed(event)">
+<br>
+<br>
+br>
+<br>
+<br>
+<br>
+<br>
+<p>
+<center>
+        <label for="urlInput">Enter URL:</label><br>
+        <input type="text" id="urlInput" name="url"><br><br>
+        <input type="submit" value="Check Speed">
+</center>
+
+    </form>
+
+
+
+<p>Characteristics of Page Speed Tester</p>
+<div class="grid-container">
+  <div class="grid-item">Website Speed Analysis</div>
+  <div class="grid-item">Page Load Time Measurement</div>
+  <div class="grid-item">Performance Metrics</div>  
+  <div class="grid-item">Detailed Reports</div>
+  <div class="grid-item">Comparative Analysis</div>
+  <div class="grid-item">Browser Compatibility Testing</div>  
+   
+</div>
+
+<div id="websiteSnapshot" style="display: none;">
+    <p>Snapshot of the tested website:</p>
+    <img id="snapshotImage" src="" alt="Website Snapshot" style="max-width:100%; border: 1px solid black;">
+</div>
+
+    <div id="speedResult" style="display: none;">
+        <p id="scoreResult"></p>
+    </div>
+
+    <script>
+
+function checkSpeed(event) {
+    event.preventDefault(); // Prevent form submission
+
+    const url = document.getElementById('urlInput').value;
+    if (!url) {
+        alert('Please enter a URL.');
+        return;
+    }
+
+    // Call the getMetrics function or any API to get the speed score
+    const score = getMetrics(url);
+    
+    const resultDiv = document.getElementById('speedResult');
+    const scoreP = document.getElementById('scoreResult');
+    
+    scoreP.textContent = `Speed Score for ${url}: ${score}`;
+
+    resultDiv.style.display = 'block';
+
+    // Capture a snapshot of the website using html2canvas
+    captureSnapshot(url);
+}
+
+function captureSnapshot(url) {
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.style.width = '100%';
+    iframe.style.height = '500px'; 
+    iframe.onload = function() {
+        html2canvas(iframe.contentWindow.document.body).then(canvas => {
+            document.getElementById('snapshotImage').src = canvas.toDataURL();
+            document.getElementById('websiteSnapshot').style.display = 'block';
+        });
+    };
+    document.body.appendChild(iframe);
+}
+
+ 
+
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+</body>
+</html>
